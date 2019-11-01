@@ -2,13 +2,15 @@
 
 # New user
 
-sudo apt-get install -y sudo ufw fail2ban sendmail apache2 git pertsentry openssl
-sudo useradd -g sudo -s /bin/bash -m koala
+sudo apt-get install -y sudo ufw fail2ban sendmail apache2 git portsentry openssl
+#sudo useradd -g sudo -s /bin/bash -m koala
 
 # Networking
 
 sudo mv /etc/network/interfaces /etc/network/interfaces.old
 sudo cp interfaces /etc/network/
+sudo mv /etc/hosts /etc/hosts.old
+sudo cp hosts /etc/
 
 # Ssh
 
