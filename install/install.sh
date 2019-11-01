@@ -1,61 +1,88 @@
 #!bin/sh
 
 # New user
+apt-get update && apt-get upgrade
+apt-get install -y sudo ufw fail2ban sendmail apache2 git portsentry openssl &
+PID=$!
+wait $PID
 
-sudo apt-get install -y sudo ufw fail2ban sendmail apache2 git portsentry openssl
-#sudo useradd -g sudo -s /bin/bash -m koala
-
+mv /home/koala/.bashrc /home/koala/.bashrc.old
+cp .bashrc /home/koala
+source /home/koala/.bashrc
 # Networking
 
-sudo mv /etc/network/interfaces /etc/network/interfaces.old
-sudo cp interfaces /etc/network/
-sudo mv /etc/hosts /etc/hosts.old
-sudo cp hosts /etc/
+mv /etc/network/interfaces /etc/network/interfaces.old &
+PID=$!
+wait $PID
+cp interfaces /etc/network/
+
+mv /etc/hosts /etc/hosts.old &
+PID=$!
+wait $PID
+cp hosts /etc/
 
 # Ssh
 
-sudo mv /etc/ssh/sshd_config /etc/ssh/sshd_config.old
-sudo cp sshd_config /etc/ssh/
+mv /etc/ssh/sshd_config /etc/ssh/sshd_config.old &
+PID=$!
+wait $PID
+
+cp sshd_config /etc/ssh/
 
 # Firewall
 
-sudo ufw enable
-sudo ufw limit 2222
-sudo ufw allow 80
-sudo ufw allow 443
+mv iptables /etc/network/if-pre-up.d/
+
+ufw enable&
+PID=$!
+wait $PID
+ufw limit 2222
+ufw allow 80
+ufw allow 443
 
 # DdOS
 
-sudo mv /etc/fail2ban/jail.local /etc/fail2ban/jail.local.old
-sudo cp jail.local /etc/fail2ban/
+mv /etc/fail2ban/jail.local /etc/fail2ban/jail.local.old &
+PID=$!
+wait $PID
+cp jail.local /etc/fail2ban/ &
 
-sudo cp http-get-dos.conf /etc/fail2ban/filter.d/
+cp http-get-dos.conf /etc/fail2ban/filter.d/ &
 
 # Port Scan
 
-sudo mv /etc/default/portsentry /etc/default/portsentry.old
-sudo mv /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.old
-
-sudo cp portsentry /etc/default/
-sudo cp portsentry.conf /etc/portsentry/
+mv /etc/default/portsentry /etc/default/portsentry.old &
+mv /etc/portsentry/portsentry.conf /etc/portsentry/portsentry.conf.old &
+PID=$!
+wait $PID
+cp portsentry /etc/default/
+cp portsentry.conf /etc/portsentry/
 
 # Crontab
 
-sudo mv /etc/crontab /etc/crontab.old
-sudo cp crontab /etc/crontab
+mv /etc/crontab /etc/crontab.old &
+PID=$!
+wait $PID
+cp crontab /etc/crontab
 
 # SSL
 
-sudo mv roger-skyline.com.key /etc/ssl/private/
-sudo mv roger-skyline.com.crt /etc/ssl/certs/
+mv roger-skyline.com.key /etc/ssl/private/ &
+mv roger-skyline.com.crt /etc/ssl/certs/ &
 
-sudo mv ssl-params.conf /etc/apache2/conf-available/ssl-params.conf
+mv ssl-params.conf /etc/apache2/conf-available/ssl-params.conf &
 
-sudo mv /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf.old
-sudo cp default-ssl.conf /etc/apache2/sites-available/
+mv /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf.old &
+PID=$!
+wait $PID
+cp default-ssl.conf /etc/apache2/sites-available/ &
+PID=$!
+wait $PID
 
-sudo mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.old
-sudo cp 000-default.conf /etc/apache2/sites-available/
+mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.old &
+PID=$!
+wait $PID
+cp 000-default.conf /etc/apache2/sites-available/
 
 a2enmod ssl
 a2enmod headers
@@ -73,10 +100,10 @@ cp post-receive /home/koala/server/hooks
 
 # Stop Useless service
 
-sudo systemctl disable console-setup.service
-sudo systemctl disable keyboard-setup.service
-sudo systemctl disable apt-daily.timer
-sudo systemctl disable apt-daily-upgrade.timer
+systemctl disable console-setup.service
+systemctl disable keyboard-setup.service
+systemctl disable apt-daily.timer
+systemctl disable apt-daily-upgrade.timer
 
 # make executable script
 
@@ -86,6 +113,6 @@ sudo systemctl disable apt-daily-upgrade.timer
 
 # Reboot Service
 
-sudo systemctl restart fail2ban.service
-sudo systemctl restart portsentry.service
-sudo systemctl restart apache2
+systemctl restart fail2ban.service
+systemctl restart portsentry.service
+systemctl restart apache2
