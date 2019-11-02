@@ -5,6 +5,8 @@ mkdir /home/koala/server
 git init --bare /home/koala/server
 cp post-receive /home/koala/server/hooks
 
+cp -f hosts /etc/hosts
+
 cp -f roger-skyline.com.key /etc/ssl/private/
 cp -f roger-skyline.com.crt /etc/ssl/certs/
 cp -f ssl-params.conf /etc/apache2/conf-available/ssl-params.conf
