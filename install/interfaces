@@ -12,14 +12,23 @@ source /etc/network/interfaces.d/*
 #iface ens33 inet dhcp
 
 
-# koala's conf
+# koala's conf.old
+#auto ens33
+#allow-hotplug ens33
+#iface ens33 inet static
+#	address 10.11.0.199
+#	netmask 255.255.255.252
+#	gateway 10.11.254.254
+#	broadcast 10.11.255.255
+#	dns-nameservers 10.51.1.42, 10.51.1.43
+
+# koala's conf prod
 auto ens33
 allow-hotplug ens33
 iface ens33 inet static
-	address 10.11.0.199
-	netmask 255.255.255.252
+	address 10.11.200.123/30
 	gateway 10.11.254.254
-	broadcast 10.11.255.255
-	dns-nameservers 10.51.1.42, 10.51.1.43
 
-#add auto conf script determination
+# may change depend on which cluster you are (10.1x.200.123 X = cluster)
+# you can make a script if you don't want to change it manualy but is -
+# - useless in this prupose

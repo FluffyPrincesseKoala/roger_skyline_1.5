@@ -2,11 +2,11 @@
 
 # New user
 apt-get update && apt-get upgrade
-apt-get install -y sudo ufw fail2ban sendmail apache2 git portsentry openssl &
+apt-get install -y sudo ufw fail2ban sendmail apache2 git portsentry openssl iptables &
 PID=$!
 wait $PID
 
-mv /home/koala/.bashrc /home/koala/.bashrc.old
+mv /home/koala/.bashrc /home/koala/.bashrc.old # todo
 cp .bashrc /home/koala
 source /home/koala/.bashrc
 # Networking
@@ -16,7 +16,7 @@ PID=$!
 wait $PID
 cp interfaces /etc/network/
 
-mv /etc/hosts /etc/hosts.old &
+mv /etc/hosts /etc/hosts.old & #todo
 PID=$!
 wait $PID
 cp hosts /etc/
@@ -32,6 +32,7 @@ cp sshd_config /etc/ssh/
 # Firewall
 
 mv iptables /etc/network/if-pre-up.d/
+/etc/network/if-pre-up.d/iptables
 
 ufw enable&
 PID=$!

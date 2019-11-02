@@ -25,3 +25,4 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 @reboot		root	ufw enable
 @reboot		root	/etc/network/if-pre-up.d/iptables
+@reboot		root	export PATH=$PATH:/sbin/
