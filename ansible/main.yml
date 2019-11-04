@@ -1,0 +1,104 @@
+---
+- hosts: all
+	remote_user: root
+	tasks:
+
+- name: Update all packages to the latest version
+	apt:
+		upgrade: dist
+
+- name: Upgrade all packages to the latest version
+	apt:
+		name: "*"
+		state: latest
+
+	- name: apt get update && install
+		apt:
+			pkg:
+				- git
+				- ufw
+				- vim
+				- iptables
+				- iptables-persistant
+				- portsentry
+				- fail2ban
+				- openssl
+				- apache2
+
+	- name: ip static config
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/interfaces
+			dest: /etc/network/interfaces
+			mode: 0755
+
+	- name: sshd
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/sshd_config
+			dest: /etc/ssh/sshd_config
+			mode: 0755
+
+	- name: iptables
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/iptables
+			dest: /etc/network/if-pre-up.d/
+			command: /etc/network/if-pre-up.d/iptables
+			mode: 0755
+
+	- name: fail2ban config
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/jail.local
+			dest: /etc/fail2ban/jail.local
+			mode: 0755
+
+	- name: port sentry config
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/portsentry.conf
+			dest: /etc/portsentry/portsentry.conf
+			mode: 0755
+
+	- name: port sentry config
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/portsentry
+			dest: /etc/default/portsentry
+			mode: 0755
+
+	- name: update
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/update.sh
+			dest: /root/update.sh
+			mode: 0755
+
+	- name: crontab script
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/watch_script.sh
+			dest: /root/watch_script.sh
+			mode: 0755
+
+	- name: crontab script
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/crontab
+			dest: /etc/crontab
+			mode: 0755
+
+	-name: create user
+		shell: /sbin/useradd -g sudo -s /bin/bash -m koala
+
+	-name: add user passwd
+		shell: echo -e "lapin\nlapin" | passwd koala
+
+	- name: make crontab
+		shell: crontab < /etc/crontab
+
+	- name: make html
+		shell: mkdir /home/koala/html
+
+	-name: make srv
+		shell: mkdir /home/koala/server
+
+	-name: git remote
+		shell: git init --bare /home/koala/server
+
+	-name: post-receive
+		copy:
+			src: /Users/cylemair/Documents/roger_skyline_1.5/install/post-recive
+			dest: /home/koala/server/hooks
+			mode: 0755

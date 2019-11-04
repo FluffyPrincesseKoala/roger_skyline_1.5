@@ -37,3 +37,4 @@ iptables -A INPUT	-p icmp		--icmp-type echo-reply		-j ACCEPT
 # Already established connections
 iptables -A INPUT	-m conntrack	--ctstate ESTABLISHED,RELATED	-j ACCEPT
 iptables -A OUTPUT	-m conntrack	--ctstate ESTABLISHED,RELATED	-j ACCEPT
+iptables -D INPUT 1

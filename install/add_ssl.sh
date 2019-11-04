@@ -18,3 +18,4 @@ cp -f 000-default.conf /etc/apache2/sites-available/000-default.conf
 /sbin/a2ensite default-ssl
 /sbin/a2enconf ssl-params
 /sbin/apache2ctl configtest
+systemctl reload apache2

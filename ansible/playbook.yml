@@ -1,0 +1,9 @@
+---
+hosts: all
+  user: root
+  tasks:
+  - name: say hi
+    tags: foo
+    shell: echo "hi..."
+
+  - include: main.yml

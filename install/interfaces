@@ -1,33 +1,12 @@
-# This file describes the network interfaces available on your system
-# and how to activate them. For more information, see interfaces(5).
-
-source /etc/network/interfaces.d/*
-
-# The loopback network interface
-#auto lo
-#iface lo inet loopback
-
-# The primary network interface
-#allow-hotplug ens33
-#iface ens33 inet dhcp
-
-
-# koala's conf.old
-#auto ens33
-#allow-hotplug ens33
-#iface ens33 inet static
-#	address 10.11.0.199
-#	netmask 255.255.255.252
-#	gateway 10.11.254.254
-#	broadcast 10.11.255.255
-#	dns-nameservers 10.51.1.42, 10.51.1.43
-
-# koala's conf prod
+# koala's conf
 auto ens33
 allow-hotplug ens33
 iface ens33 inet static
-	address 10.11.200.123/30
+	address 10.11.0.199
+	netmask 255.255.255.252
 	gateway 10.11.254.254
+	broadcast 10.11.255.255
+	dns-nameservers 10.51.1.42, 10.51.1.43
 
 # may change depend on which cluster you are (10.1x.200.123 X = cluster)
 # you can make a script if you don't want to change it manualy but is -

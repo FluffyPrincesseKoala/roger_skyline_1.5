@@ -19,10 +19,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
 47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
 52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
-0 4	* * 1	root	/home/koala/update.sh
-@reboot		root	/home/koala/update.sh
-0 0	* * *	root	/home/koala/watch_script.sh
-
-@reboot		root	ufw enable
+0 4	* * 1	root	/root/update.sh
+@reboot		root	/root/update.sh
 @reboot		root	/etc/network/if-pre-up.d/iptables
 @reboot		root	export PATH=$PATH:/sbin/
+0 0	* * *	root	/root/watch_script.sh
