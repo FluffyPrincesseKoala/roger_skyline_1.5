@@ -1,0 +1,4 @@
+iface ens33 inet static
+	address 10.11.200.123
+	netmask 255.255.255.252
+	gateway 10.11.254.254
